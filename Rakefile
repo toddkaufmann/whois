@@ -14,25 +14,21 @@ spec = Gem::Specification.new do |s|
   s.summary           = "An intelligent pure Ruby WHOIS client and parser."
   s.description       = "Whois is an intelligent WHOIS client and parser written in pure Ruby. It can query registry data for IPv4, IPv6 and top level domains, parse and convert responses into easy-to-use Ruby objects."
 
-  s.required_ruby_version = ">= 1.9.2"
+  s.required_ruby_version = ">= 2.0.0"
 
   s.authors           = ["Simone Carletti"]
   s.email             = ["weppos@weppos.net"]
-  s.homepage          = "http://www.ruby-whois.org/"
+  s.homepage          = "http://whoisrb.org/"
   s.license           = "MIT"
-  s.rubyforge_project = "whois"
 
   s.files             = %w( LICENSE.txt .yardopts ) +
-                        Dir.glob("*.{markdown,gemspec}") +
+                        Dir.glob("*.{md,gemspec}") +
                         Dir.glob("{bin,data,lib}/**/*")
   s.executables       = %w( whoisrb )
   s.require_paths     = %w( lib )
 
-  s.add_dependency "activesupport", ">= 3"
-
   s.add_development_dependency "rake"
-  s.add_development_dependency "rspec", "~> 2.0"
-  s.add_development_dependency "mocha"
+  s.add_development_dependency "rspec"
   s.add_development_dependency "yard"
 
   s.post_install_message = <<EOS

@@ -3,11 +3,8 @@
 #
 # An intelligent pure Ruby WHOIS client and parser.
 #
-# Copyright (c) 2009-2014 Simone Carletti <weppos@weppos.net>
+# Copyright (c) 2009-2015 Simone Carletti <weppos@weppos.net>
 #++
-
-
-require 'whois/record/super_struct'
 
 
 module Whois
@@ -23,7 +20,26 @@ module Whois
     # @attr [String] body The body containing the WHOIS output.
     # @attr [String] host The host which returned the body.
     #
-    class Part < SuperStruct.new(:body, :host)
+    class Part < Struct.new(:body, :host)
+
+      def initialize(*args)
+        if args.first.is_a? Hash
+          initialize_with_hash(args.first)
+        elsif args.size == 0
+          super
+        else
+          raise ArgumentError
+        end
+        yield(self) if block_given?
+      end
+
+      private
+
+      def initialize_with_hash(attributes = {})
+        attributes.each do |key, value|
+          self[key] = value
+        end
+      end
     end
 
   end

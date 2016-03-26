@@ -1,11 +1,15 @@
+sudo: false
 language: ruby
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
-  - 2.1.5
+  - 2.0
+  - 2.1
+  - 2.2
   - ruby-head
   - jruby-19mode
+env:
+  - COVERALL=1
+cache:
+  - bundler
 
 notifications:
   recipients:
@@ -15,6 +19,3 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-19mode
-  include:
-    - rvm: 1.9.2
-      gemfile: Gemfile.ruby-1.9.2

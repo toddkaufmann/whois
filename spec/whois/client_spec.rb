@@ -4,39 +4,39 @@ describe Whois::Client do
 
   describe "#initialize" do
     it "accepts a zero parameters" do
-      lambda { described_class.new }.should_not raise_error
+      expect { described_class.new }.to_not raise_error
     end
 
     it "accepts a settings parameter" do
-      lambda { described_class.new({ :foo => "bar" }) }.should_not raise_error
+      expect { described_class.new({ :foo => "bar" }) }.to_not raise_error
     end
 
 
     it "accepts a timeout setting with a value in seconds" do
       client = described_class.new(:timeout => 100)
-      client.timeout.should == 100
+      expect(client.timeout).to eq(100)
     end
 
     it "accepts a timeout setting with a nil value" do
       client = described_class.new(:timeout => nil)
-      client.timeout.should be_nil
+      expect(client.timeout).to be_nil
     end
 
     it "accepts a block" do
       described_class.new do |client|
-        client.should be_instance_of(described_class)
+        expect(client).to be_instance_of(described_class)
       end
     end
 
 
     it "defaults timeout setting to DEFAULT_TIMEOUT" do
       client = described_class.new
-      client.timeout.should == described_class::DEFAULT_TIMEOUT
+      expect(client.timeout).to eq(described_class::DEFAULT_TIMEOUT)
     end
 
     it "sets settings to given argument, except timeout" do
       client = described_class.new(:timeout => nil, :foo => "bar")
-      client.settings.should == { :foo => "bar" }
+      expect(client.settings).to eq({ :foo => "bar" })
     end
   end
 
@@ -50,16 +50,16 @@ describe Whois::Client do
       end
 
       server = Whois::Server::Adapters::Base.new(:tld, ".test", "whois.test")
-      server.expects(:lookup).with("example.test")
-      Whois::Server.expects(:guess).with("example.test").returns(server)
+      expect(server).to receive(:lookup).with("example.test")
+      expect(Whois::Server).to receive(:guess).with("example.test").and_return(server)
 
       described_class.new.lookup(query)
     end
 
     it "converts the argument to downcase" do
       server = Whois::Server::Adapters::Base.new(:tld, ".test", "whois.test")
-      server.expects(:lookup).with("example.test")
-      Whois::Server.expects(:guess).with("example.test").returns(server)
+      expect(server).to receive(:lookup).with("example.test")
+      expect(Whois::Server).to receive(:guess).with("example.test").and_return(server)
 
       described_class.new.lookup("Example.TEST")
     end
@@ -92,7 +92,7 @@ describe Whois::Client do
           sleep(2)
         end
       end
-      Whois::Server.expects(:guess).returns(adapter.new(:tld, ".test", "whois.test"))
+      expect(Whois::Server).to receive(:guess).and_return(adapter.new(:tld, ".test", "whois.test"))
 
       client = described_class.new(:timeout => 1)
       expect {
@@ -106,7 +106,7 @@ describe Whois::Client do
           sleep(1)
         end
       end
-      Whois::Server.expects(:guess).returns(adapter.new(:tld, ".test", "whois.test"))
+      expect(Whois::Server).to receive(:guess).and_return(adapter.new(:tld, ".test", "whois.test"))
 
       client = described_class.new(:timeout => 5)
       expect {
@@ -120,7 +120,7 @@ describe Whois::Client do
           sleep(1)
         end
       end
-      Whois::Server.expects(:guess).returns(adapter.new(:tld, ".test", "whois.test"))
+      expect(Whois::Server).to receive(:guess).and_return(adapter.new(:tld, ".test", "whois.test"))
 
       client = described_class.new.tap { |c| c.timeout = nil }
       expect {

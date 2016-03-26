@@ -1,3 +1,8 @@
+if ENV['COVERALL']
+  require 'coveralls'
+  Coveralls.wear!
+end
+
 require 'rspec'
 require 'whois'
 
@@ -15,5 +20,5 @@ Encoding.default_internal = Encoding::UTF_8
 Dir[File.join(SPEC_ROOT, "support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
-  config.mock_with :mocha
+  config.mock_with :rspec
 end
